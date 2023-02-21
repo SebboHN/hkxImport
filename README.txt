@@ -1,30 +1,23 @@
-## Installation
+Read me!
+For the script to work make sure you have all the necessary prerequisite:
 
-Move corresponding .dlu located in correct version folder into ***%3ds max installation directory%/stdplugs***. \ (e.g. \Program Files\Autodesk\3ds Max 20xx\stdplugs)
-Versions must match!\
-Additionally plugin will require **Visual C++ Redistributable for Visual Studio 2017** to be installed in order to work.
+-Havok Content Tools
+-Havok 3ds Max Plugin (https://github.com/PredatorCZ/HavokMax/releases)
+-NIF_Exporter (for 3ds Max 2013 provided by Beth in \Fallout 4\Tools\NIF_Exporter folder. (For newer 3ds Max versions search on nexusmods)
 
-Open the F4BipedCAT_2013.max file
-Drag and Drop (or use the import menu) an Animation HKX file into the 3dsMax view. 
-Run the Script HKXImport.mse via Drag and Drop into the view screen or via MAXScript menu. 
+Installation: 
+- Close 3ds Max
+- Use the 3dsMaxPlugin files included or download the latest release. ( https://github.com/PredatorCZ/HavokMax/releases )
+- Copy the file for your 3dsMax version into the following folder: InstallPath\Autodesk\3ds Max 20xx\plugins
 
-Optional: Create a button for the script in "Customize User Interface" Menu and place the script file into the
-\Program Files\Autodesk\3ds Max 20xx\scripts\Startup folder
-https://www.augi.com/articles/detail/customize-3ds-max-with-script-buttons
+Usage:
 
+-Open the max file included with this script: F4BipedCAT_2013.max.
+-Run the script via MAXScript menu or via drag and drop into the view screen.
+-Select the source race\n-Import a *.hkx from 3ds Max main menu or if enabled in 3ds Max settings via drag and drop.
+-Make sure „Invert Top" is unchecked in the import menu.(The import menu only shows up if you import manualy, not drag and drop)
+-Press run on the script
+-Save the max file with a new filename and start editing.
+-If an animation is already loaded and you want to try another one, press the reset button before and set the source race.
 
-
-## Troubleshooting:
-
-If the animation has an inverted Z-Axies you have to import an hkx once manually. (Top Left 3dsMax Symbol Button)
-Uncheck the "Invert Top" option in the Importer Window and import the file. Leave the Rest as is.
-The settings will be saved for the next drag and drop.
-
-
-## .dlu file info
-This plugin is available under GPL v3 license. (See LICENSE.md)
-
-This plugin uses following libraries:
-
-* HavokLib, Copyright (c) 2016-2020 Lukas Cone
-### [Latest Release](https://github.com/PredatorCZ/HavokMax/releases/)
+ Created by Sebbo 

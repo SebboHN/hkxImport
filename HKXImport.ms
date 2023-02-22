@@ -161,6 +161,7 @@ fn rename_objects_substract obj toDelete RootSrc=
 fn change_names_back = (
 	print "---------------" 	
 	print "Changing names back"
+	deselect $*
 	select $Root
 	for obj in selection do collect_children obj &allChildren
 	print allChildren	

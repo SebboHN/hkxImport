@@ -19,7 +19,7 @@
 		global obj = #()
 		global inaktiv
 		
-fn capture_animation catparentnode source_hierarchy_root camfile quiet:true delsrc:false StartTime:animationRange.start EndTime:animationRange.end layername:"" = 
+fn capture_animation catparentnode source_hierarchy_root camfile quiet:true delsrc:true StartTime:animationRange.start EndTime:animationRange.end layername:"" = 
 (		
 	print "---------------" 	
 	print "Transfering Animation"

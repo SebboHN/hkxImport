@@ -167,26 +167,22 @@ fn change_names_back = (
 	print allChildren	
 		for i = 1 to allChildren.count do (	
 			if switch == 1 then (
-				obj[i].name = objectnames_human[i].name
 				rename_objects_addition allChildren "_human"
 			)
 		)
 		
 			for i = 1 to allChildren.count do (	
 			if switch == 2 then (
-				obj[i].name = objectnames_ghoul[i].name
 				rename_objects_addition allChildren "_ghoul"
 			)
 		)
 			for i = 1 to allChildren.count do (	
 			if switch == 3 then (
-				obj[i].name = objectnames_supermutant[i].name
 				rename_objects_addition allChildren "_supermutant"
 			)
 		)
 		for i = 1 to allChildren.count do (	
 			if switch == 4 then (
-		--		obj[i].name = objectnames_fallout76[i].name
 				rename_objects_addition allChildren "_fallout76"
 			)
 		)

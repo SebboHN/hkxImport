@@ -162,6 +162,7 @@ fn change_names_back = (
 	print "---------------" 	
 	print "Changing names back"
 	deselect $*
+	if $Root != undefined then (
 	select $Root
 	for obj in selection do collect_children obj &allChildren
 	print allChildren	
@@ -186,6 +187,7 @@ fn change_names_back = (
 				rename_objects_addition allChildren "_fallout76"
 			)
 		)
+	)
 )
 
 fn rename_objects_addition obj addition =

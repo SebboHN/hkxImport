@@ -1,28 +1,51 @@
 -----------------------------------------------------------------------------
 --		HKXImport / Mapping Script by Sebbo
 -----------------------------------------------------------------------------
-		global out_path_human
-		global out_path_ghoul
-		global out_path_supermutant
-		global skel_human = #()
-		global skel_ghoul = #()
-		global skel_supermutant = #()
-		global skel_fallout76 = #()
+-------------------------------------------------------
+-- General
 		global allChildren = #()
 		global BtnState = 0
 		global RootSrc
-		global userprops_human = #()
-		global userprops_ghoul = #()
-		global userprops_supermutant = #()
-		global userprops_fallout76 = #()
 		global switch
 		global obj = #()
 		global inaktiv
+		global obj_tmp = #()
+-------------------------------------------------------
+-- Human
+		global objectnames_human
+		global out_path_human
+		global skel_human = #()
+		global userprops_human = #()
+-------------------------------------------------------
+-- Ghoul
+		global objectnames_ghoul
+		global out_path_ghoul
+		global skel_ghoul = #()
+		global userprops_ghoul = #()
+-------------------------------------------------------
+-- Supermutant
+		global objectnames_supermutant
+		global userprops_supermutant = #()
+		global skel_supermutant = #()
+		global out_path_supermutant		
+-------------------------------------------------------
+-- Fallout 76
+		global objectnames_fallout76
+		global userprops_fallout76 = #()
+		global skel_fallout76 = #()
+		global out_path_fallout76
 		
-fn capture_animation catparentnode source_hierarchy_root camfile quiet:true delsrc:true StartTime:animationRange.start EndTime:animationRange.end layername:"" = 
+fn capture_animation catparentnode source_hierarchy_root camfile quiet:true delsrc:false StartTime:animationRange.start EndTime:animationRange.end layername:"" = 
 (		
 	print "---------------" 	
 	print "Transfering Animation"
+	
+	if switch == 4 then (
+		ikObj = $Bip_RLeg_Thigh
+		ikObj.controller.limb.layerIKFKRatio = 0
+		ikObj = $Bip_LLeg_Thigh
+		ikObj.controller.limb.layerIKFKRatio = 0
+	)
 	rCaptureAnim.openDialog quiet:quiet;
 	
 	rCaptureAnim.spnStartTime.value = StartTime;
@@ -60,7 +83,7 @@ fn capture_animation catparentnode source_hierarchy_root camfile quiet:true dels
 			return false;
 		)
 		DestroyDialog rCaptureAnim;	
-		print "true" 	
+		
 		return true;
 	)
 	
@@ -135,22 +158,57 @@ fn rename_objects_substract obj toDelete RootSrc=
 	deselect selection
 )
 
+fn change_names_back = (
+	print "---------------" 	
+	print "Changing names back"
+	select $Root
+	for obj in selection do collect_children obj &allChildren
+	print allChildren	
+		for i = 1 to allChildren.count do (	
+			if switch == 1 then (
+				obj[i].name = objectnames_human[i].name
+				rename_objects_addition allChildren "_human"
+			)
+		)
+		
+			for i = 1 to allChildren.count do (	
+			if switch == 2 then (
+				obj[i].name = objectnames_ghoul[i].name
+				rename_objects_addition allChildren "_ghoul"
+			)
+		)
+			for i = 1 to allChildren.count do (	
+			if switch == 3 then (
+				obj[i].name = objectnames_supermutant[i].name
+				rename_objects_addition allChildren "_supermutant"
+			)
+		)
+		for i = 1 to allChildren.count do (	
+			if switch == 4 then (
+		--		obj[i].name = objectnames_fallout76[i].name
+				rename_objects_addition allChildren "_fallout76"
+			)
+		)
+)
+
 fn rename_objects_addition obj addition =
 (
 	print "true" 
-	print "---------------" 	 	
-	select $Root
-	for obj in selection do collect_children obj &allChildren
-	select allChildren
-	for i=1 to obj.count do 
-	(
-		obj[i].name = append obj[i].name addition
-		objectsProp = ""
-	    setUserPropBuffer obj[i] objectsProp
+	print "---------------"
+	if $Root != undefined then (	
+		select $Root
+		for obj in selection do collect_children obj &allChildren
+		select allChildren
+			for i=1 to obj.count do 
+			(
+				obj[i].name = append obj[i].name addition
+				objectsProp = ""
+				setUserPropBuffer obj[i] objectsProp
+			)
+			
+		free obj
+		print "true" 	
 	)
-		
-	free obj
-	print "true" 	
 )
 
 fn cleanup_layer = 
@@ -555,6 +613,7 @@ fn startup_rigs = (
 	for obj in selection do collect_children obj &allChildren
 	select allChildren
 	obj_tmp = allChildren
+	objectnames_human = obj_tmp
 	for i=1 to obj_tmp.count do ( 
 	userprops_human[i] = getUserPropBuffer obj_tmp[i]
 	setUserPropBuffer obj_tmp[i] ""
@@ -569,6 +628,7 @@ fn startup_rigs = (
 	for obj in selection do collect_children obj &allChildren
 	select allChildren
 	obj_tmp = allChildren
+	objectnames_ghoul = obj_tmp
 	for i=1 to obj_tmp.count do ( 
 	userprops_ghoul[i] = getUserPropBuffer obj_tmp[i]
 	setUserPropBuffer obj_tmp[i] ""
@@ -584,6 +644,7 @@ fn startup_rigs = (
 	for obj in selection do collect_children obj &allChildren
 	select allChildren
 	obj_tmp = allChildren
+	objectnames_supermutant = obj_tmp
 	for i=1 to obj_tmp.count do ( 
 	userprops_supermutant[i] = getUserPropBuffer obj_tmp[i]
 	setUserPropBuffer obj_tmp[i] ""
@@ -598,6 +659,7 @@ fn startup_rigs = (
 	for obj in selection do collect_children obj &allChildren
 	select allChildren
 	obj_tmp = allChildren
+	objectnames_fallout76 = obj_tmp 
 	for i=1 to obj_tmp.count do ( 
 	userprops_fallout76[i] = getUserPropBuffer obj_tmp[i]
 	setUserPropBuffer obj_tmp[i] ""
@@ -628,9 +690,10 @@ rollout hkxImporter "" width:171 height:166
 			if switch == 1 then (
 			print "Creating Human->Human Mapping"
 			create_mapping_file_human()
-				
+			free allChildren	
 							if $Root != undefined do ( 			
 								capture_animation $Bip_ $Root out_path_human
+								change_names_back()
 								print "---------------" 	
 								print "Collect Children"
 								rename_objects_substract allChildren 7 $Root_Source
@@ -642,9 +705,10 @@ rollout hkxImporter "" width:171 height:166
 			if switch == 2 then (
 			print "Creating Ghoul->Human Mapping"
 			create_mapping_file_ghoul()			
-				
+			free allChildren	
 							if $Root != undefined do ( 			
 								capture_animation $Bip_ $Root out_path_ghoul
+								change_names_back()
 								print "---------------" 	
 								print "Collect Children"
 								rename_objects_substract allChildren 7 $Root_Source
@@ -658,10 +722,11 @@ rollout hkxImporter "" width:171 height:166
 			(
 						print "Creating SuperMutant->Human Mapping"
 						create_mapping_file_supermutant()
-				
+						free allChildren
 							if $Root != undefined do 
 							( 			
 								capture_animation $Bip_ $Root out_path_supermutant
+								change_names_back()
 								print "---------------" 	
 								print "Collect Children"
 								rename_objects_substract allChildren 7 $Root_Source
@@ -674,14 +739,15 @@ rollout hkxImporter "" width:171 height:166
 			(
 						print "Creating Fallout 76->Human Mapping"
 						create_mapping_file_fallout76()
-				
+						free allChildren
 							if $Root != undefined do 
 							( 			
-								print out_path_fallout76
 								capture_animation $Bip_ $Root out_path_fallout76
+								change_names_back()
 								print "---------------" 	
 								print "Collect Children"
-								rename_objects_substract allChildren 7 $Root_Source
+				--			rename_objects_substract allChildren 7 $Root_Source
+								
 								cleanup_layer()
 								select $Bip_
 							)
@@ -697,7 +763,6 @@ rollout hkxImporter "" width:171 height:166
 				switch = rdo1.state
 			
 						if switch == 1 and BtnState != 1 then (
-							print "state 1"
 							if BtnState == 2 then (
 								rename_objects_addition allChildren "_ghoul"
 							)
@@ -760,27 +825,29 @@ rollout hkxImporter "" width:171 height:166
 						)
 		)
 	)
+	
 	on btnRun pressed do
 	(
 					start_function()
-			)
+	)
+			
 	on btnClose pressed do
 	(
 					destroyDialog hkxImporter
-			)
+	)
 	on btn3 pressed do
 	(
 				messageBox \
 					"Help!\n\nFor the script to work make sure you have all the necessary prerequisite:\n\n-Havok Content Tools\n-Havok 3ds Max Plugin ( https://github.com/PredatorCZ/HavokMax/releases )\n-NIF_Exporter (for 3ds Max 2013 provided by Bethesda in \Fallout 4\Tools\NIF_Exporter folder. (For newer 3ds Max versions search on nexusmods)\n\nUsage:\n\n-Open the max file included with this script: F4BipedCAT_2013.max.\n-Run the script via MAXScript menu or via drag and drop into the view screen.\n-Select the source race\n-Import a *.hkx from 3ds Max main menu or if enabled in 3ds Max settings via drag and drop.\n-Make sure \"Invert Top\" is unchecked in the import menu.(The import menu only shows up if you import manualy, not drag and drop)\n-Press run on the script\n-Save the max file with a new filename and start editing.\n-If an animation is already loaded and you want to try another one, press the reset button before and set the source race.\n\n Created by Sebbo\n"\  
 					title:"Help" beep:false		
 				
-			)
+	)
 	on btnRefresh pressed do
 	(
 				destroyDialog hkxImporter
 				loadMaxFile (maxFilePath + maxFileName) quiet:true
 				fileIn(getThisScriptFilename()) 
-			)
+	)
 )
 	if $Bip_ != undefined do ( 
 	startup_rigs()	

@@ -104,13 +104,13 @@
 	        process.StartInfo.RedirectStandardOutput = true
 	        process.StartInfo.RedirectStandardError = true
 	        process.StartInfo.FileName = exe_path
-	        process.StartInfo.Arguments = ""
-	        
-	        if arg_array != undefined then
-	        (
-	        	for arg in arg_array do (process.StartInfo.Arguments += (" " + arg as string))
-	        )
+	        process.StartInfo.Arguments = arg_array[1] 
 
+-- 	        if arg_array != undefined then
+-- 	        (
+-- 	        	for arg in arg_array do (process.StartInfo.Arguments += (" " + arg as string))
+-- 				print arg	
+-- 	        )
 	        process.Start()
 	        process.WaitForExit()
 
@@ -993,10 +993,7 @@
 			
 			hkxImporter.hkxPath = args.Data.GetData(dotnetclass "DataFormats").filedrop
 			li=dotNetObject "System.Windows.Forms.ListViewItem" hkxImporter.hkxPath	
-				
-			print hkxImporter.dnHkxList.items.count
-			print li.text
-			
+							
 			if  li.text != undefined then (
 		
 	-- 			if hkxImporter.dnHkxList.items.count == 0 then (		

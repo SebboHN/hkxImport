@@ -4,7 +4,7 @@ For the script to work make sure you have all the necessary prerequisite:
 - Havok Content Tools 
 - Havok 3ds Max Plugin (https://github.com/PredatorCZ/HavokMax/releases) 
 - NIF_Exporter (for 3ds Max 2013 provided by Beth in \Fallout 4\Tools\NIF_Exporter folder. (For newer 3ds Max versions search on nexusmods) 
-- Optional: For the annotation feature to work a installed Java JRE is needed.
+- Optional: For the annotation feature to work a installed Java JRE is needed (https://www.java.com/en/).
 
 Installation: 
 - Close 3ds Max

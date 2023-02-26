@@ -4,18 +4,19 @@ For the script to work make sure you have all the necessary prerequisite:
 - Havok Content Tools 
 - Havok 3ds Max Plugin (https://github.com/PredatorCZ/HavokMax/releases) 
 - NIF_Exporter (for 3ds Max 2013 provided by Beth in \Fallout 4\Tools\NIF_Exporter folder. (For newer 3ds Max versions search on nexusmods) 
+- Optional: For the annotation feature to work a installed Java JRE is needed.
 
 Installation: 
 - Close 3ds Max
 - Use the 3dsMaxPlugin files included or download the latest release. ( https://github.com/PredatorCZ/HavokMax/releases )
 - Copy the file for your 3dsMax version into the following folder: InstallPath\Autodesk\3ds Max 20xx\plugins
-- Copy the hkxreano.exe and hkxpack-cli.exe into the same folder as your HKXImport.ms file. Those three files must always stay together. You can place them where ever you want, but they need to be together.
-  It always has to be in the same folder. If you create a button in 3dsMax for 
-  this script, be aware that you have to place the .exe into that MaxFolder he uses.
+- Copy the hkxreano.exe and hkxpack-cli.jar into the same folder as your HKXImport.ms file. Those three files must always stay together. You can place them where ever you want, but they need to be together.
+  
+  If you create a button in 3dsMax for this script, be aware that you have to place the .exe & .jar into that Max folder.
   (e.g. C:\Users\<user>\AppData\Local\Autodesk\3dsMax\2013 - 64bit\ENU\usermacros\)
   
 Usage:
-Video: https://www.youtube.com/watch?v=WOLttF9RIGk (old version but still same usage)
+Video: https://youtu.be/htTYy2-CwZE
 
 - Open the max file included with this script: F4BipedCAT_2013.max. 
 - Run the script via MAXScript menu or via drag and drop into the view screen. 

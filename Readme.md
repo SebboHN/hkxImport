@@ -33,3 +33,6 @@ To-Do List:
 - Append more than one animation to the scene 
 
  Created by Sebbo 
+
+ Used librarys: https://github.com/Dexesttp/hkxpack
+ Used plugin: https://github.com/PredatorCZ/HavokMax

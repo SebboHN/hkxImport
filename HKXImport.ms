@@ -1012,7 +1012,7 @@
 						
 						scptPath = getThisScriptFilename() as string
 						scptPath = getFilenamePath scptPath
-						
+
 						EXEPath = scptPath + "hkxreano.exe" 
 						hkxImporter.hkxreano EXEPath arg_array:#(conStr) 
 						hkxImporter.initXMLPanel(conStr)

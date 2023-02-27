@@ -1009,8 +1009,9 @@
 						
 						scptPath = getThisScriptFilename() as string
 						scptPath = getFilenamePath scptPath
+						fullscptPath = "\"" + scptPath
 
-						EXEPath = scptPath + "hkxreano.exe" 
+						EXEPath = fullscptPath + "hkxreano.exe" + "\""
 						hkxImporter.hkxreano EXEPath arg_array:#(conStr) 
 						hkxImporter.initXMLPanel(conStr)
 	-- 			)	
@@ -1046,10 +1047,11 @@
 	-- 					importFile conStr #noPrompt using:HavokImport
 	-- 					hkxImporter.createHKOconfig(conStr)
 	-- 					
-	-- 					scptPath = getThisScriptFilename() as string
-	-- 					scptPath = getFilenamePath scptPath
-	-- 					
-	-- 					EXEPath = scptPath + "hkxreano.exe" 
+	--					scptPath = getThisScriptFilename() as string
+	--					scptPath = getFilenamePath scptPath
+	--					fullscptPath = "\"" + scptPath + "\""
+	--
+	-- 					EXEPath = fullscptPath + "hkxreano.exe" 
 	-- 					hkxImporter.hkxreano EXEPath arg_array:#(conStr) 
 	-- 					hkxImporter.initXMLPanel(conStr)
 	-- 				)
@@ -1061,17 +1063,18 @@
 			li=dotNetObject "System.Windows.Forms.ListViewItem" hkxImporter.hkxPath
 			hkxImporter.dnHkxList.items.clear()
 			hkxImporter.dnHkxList.items.add li
-			formatProps hkxImporter.dnBtnRun
 
 			importFile conStr /*#noPrompt*/ using:HavokImport
 				if conStr != "" then 
 				( 
 					hkxImporter.dnBtnRun.Enabled=true
 					hkxImporter.createHKOconfig(conStr)
-					scptPath = getThisScriptFilename() as string
-					scptPath = getFilenamePath scptPath
+						scptPath = getThisScriptFilename() as string
+						scptPath = getFilenamePath scptPath
+						fullscptPath = "\"" + scptPath
 					
-					EXEPath = scptPath + "hkxreano.exe" 
+					EXEPath = fullscptPath + "hkxreano.exe" + "\""
+					print EXEPath
 					hkxImporter.hkxreano EXEPath arg_array:#(conStr) 
 					hkxImporter.initXMLPanel(conStr)
 				)

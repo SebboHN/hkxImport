@@ -11,7 +11,7 @@
 			allChildren = #(),
 			btnState = 0,
 			RootSrc,
-			switch = 0,
+			switchState = 0,
 			ntp1,
 	-------------------------------------------------------
 	-- Human
@@ -192,7 +192,7 @@
 			
 		fn AnimTransfer catparentnode srcRoot camfile quiet:true delsrc:false StartTime:animationRange.start EndTime:animationRange.end layername:"" = (		
 			
-			if switch == 4 then (
+			if switchState == 4 then (
 				ikObj = $Bip_RLeg_Thigh
 				ikObj.controller.limb.layerIKFKRatio = 0
 				ikObj = $Bip_LLeg_Thigh
@@ -643,7 +643,7 @@
 				select allChildren
 			)	
 
-			if switch == 1 and RootSrc != $Root_Source then (
+			if switchState == 1 and RootSrc != $Root_Source then (
 				for i=1 to obj.count do 
 					(
 						tokens = substring obj[i].name 1 (obj[i].name.count - toDelete)
@@ -652,7 +652,7 @@
 					)
 			)
 			
-			if switch == 2 and RootSrc != $Root_Source then (
+			if switchState == 2 and RootSrc != $Root_Source then (
 				for i=1 to obj.count do 
 					(
 						tokens = substring obj[i].name 1 (obj[i].name.count - toDelete)
@@ -661,7 +661,7 @@
 					)
 			)
 			
-			if switch == 3 and RootSrc != $Root_Source then (
+			if switchState == 3 and RootSrc != $Root_Source then (
 				for i=1 to obj.count do 
 					(
 						tokens = substring obj[i].name 1 (obj[i].name.count - toDelete)
@@ -670,7 +670,7 @@
 					)
 			)
 			
-			if switch == 4 and RootSrc != $Root_Source then (
+			if switchState == 4 and RootSrc != $Root_Source then (
 				for i=1 to obj.count do 
 					(
 						tokens = substring obj[i].name 1 (obj[i].name.count - toDelete)
@@ -706,6 +706,67 @@
 				free obj
 			)
 		),
+				
+		fn runBtnFinal = (
+			local objSrc = #()
+			local objTrg = #()
+			local IndxPos = 0
+			
+			deselect $*
+			select $Root
+			for obj in selection do collect_children obj &allChildren			
+			objSrc = deepcopy allChildren
+			
+			free allChildren
+			free obj
+			deselect $*
+			select $Root_human
+			for obj in selection do collect_children obj &allChildren
+			objTrg = deepcopy allChildren	
+			
+			free allChildren
+			free obj
+			
+			if switchState == 1 then (
+
+				for i=1 to objSrc.count do 
+					(
+						for l = 1 to objTrg.count do (
+							if objTrg[l].name == (objSrc[i].name + "_human") then (
+								IndxPos = l
+							)
+							
+						)
+							
+						if IndxPos != 0 then (
+						setUserPropBuffer objSrc[i] userprops_human[IndxPos]
+						IndxPos = 0
+						)
+					)
+			)
+			
+			if switchState == 2 then (
+				for i=1 to obj.count do 
+					(
+						setUserPropBuffer obj[i] userprops_ghoul[i]
+					)
+			)
+			
+			if switchState == 3 then (
+				for i=1 to obj.count do 
+					(
+						setUserPropBuffer obj[i] userprops_supermutant[i]
+					)
+			)
+			
+			if switchState == 4 then (
+				for i=1 to obj.count do 
+					(
+						setUserPropBuffer obj[i] userprops_fallout76[i]
+					)
+			)
+
+		),
 		
 		fn resetObjNames = (
 			deselect $*
@@ -714,22 +775,22 @@
 			for obj in selection do collect_children obj &allChildren
 			
 				for i = 1 to allChildren.count do (	
-						if switch == 1 then (
+						if switchState == 1 then (
 							renObjAdd allChildren "_human"
 						)
 				)
 					for i = 1 to allChildren.count do (	
-						if switch == 2 then (
+						if switchState == 2 then (
 							renObjAdd allChildren "_ghoul"
 						)
 				)
 					for i = 1 to allChildren.count do (	
-						if switch == 3 then (
+						if switchState == 3 then (
 							renObjAdd allChildren "_supermutant"
 						)
 				)
 					for i = 1 to allChildren.count do (	
-						if switch == 4 then (
+						if switchState == 4 then (
 							renObjAdd allChildren "_fallout76"
 						)
 						
@@ -761,8 +822,8 @@
 
 			
 			if $Bip_ != undefined do (		
-					hkxImporter.switch = sender.TabIndex
-							if hkxImporter.switch == 1 and hkxImporter.BtnState != 1 then (
+					hkxImporter.switchState = sender.TabIndex
+							if hkxImporter.switchState == 1 and hkxImporter.BtnState != 1 then (
 								if hkxImporter.BtnState == 2 then (
 									hkxImporter.renObjAdd hkxImporter.allChildren "_ghoul"
 								)
@@ -778,8 +839,8 @@
 								hkxImporter.BtnState = 1
 							)
 			
-							if hkxImporter.switch == 2 and hkxImporter.BtnState != 2 then (
-								hkxImporter.switch = sender.TabIndex
+							if hkxImporter.switchState == 2 and hkxImporter.BtnState != 2 then (
+								hkxImporter.switchState = sender.TabIndex
 								if hkxImporter.BtnState == 1 then (
 									hkxImporter.renObjAdd hkxImporter.allChildren "_human"
 								)
@@ -794,8 +855,8 @@
 								hkxImporter.BtnState = 2
 							)
 			
-							if hkxImporter.switch == 3 and hkxImporter.BtnState != 3 then (
-								hkxImporter.switch = sender.TabIndex
+							if hkxImporter.switchState == 3 and hkxImporter.BtnState != 3 then (
+								hkxImporter.switchState = sender.TabIndex
 								if hkxImporter.BtnState == 1 then (
 									hkxImporter.renObjAdd hkxImporter.allChildren "_human"
 								)
@@ -810,8 +871,8 @@
 								hkxImporter.BtnState = 3
 							)
 							
-							if hkxImporter.switch == 4 and hkxImporter.BtnState != 4 then (
-								hkxImporter.switch = sender.TabIndex
+							if hkxImporter.switchState == 4 and hkxImporter.BtnState != 4 then (
+								hkxImporter.switchState = sender.TabIndex
 								if hkxImporter.BtnState == 1 then (
 									hkxImporter.renObjAdd hkxImporter.allChildren "_human"
 								)
@@ -1019,7 +1080,7 @@
 			
 	-- 			) else (
 	-- 						
-	-- 					switchtmp = hkxImporter.switch
+	-- 					switchtmp = hkxImporter.switchState
 	-- 					
 	-- 					hkxImporter.dnHkxList.items.clear()
 	-- 					hkxImporter.dnHkxList.items.add li
@@ -1094,7 +1155,8 @@
 		),
 		
 		fn dnBtnRunClick sender args = (
-			hkxImporter.runAnimTransfer()
+			hkxImporter.runAnimTransfer()			
+	--		hkxImporter.runBtnFinal()
 		),
 		
 		fn dnBtnResetClick sender args = (
@@ -1270,9 +1332,8 @@
 		),
 		
 		fn runAnimTransfer = (		
-			if (classOf $Root) != BoneGeometry then 
-			(
-				if switch == 1 then (
+
+				if switchState == 1 then (
 				free allChildren	
 								if $Root != undefined do ( 			
 									AnimTransfer $Bip_ $Root pHuman
@@ -1283,7 +1344,7 @@
 								)
 				)
 				
-				if switch == 2 then (
+				if switchState == 2 then (
 				free allChildren	
 								if $Root != undefined do ( 			
 									AnimTransfer $Bip_ $Root pGhoul
@@ -1295,7 +1356,7 @@
 					
 				)
 				
-				if switch == 3 then 
+				if switchState == 3 then 
 				(
 							free allChildren
 								if $Root != undefined do 
@@ -1308,7 +1369,7 @@
 								)
 				)
 						
-				if switch == 4 then 
+				if switchState == 4 then 
 				(
 							free allChildren
 								if $Root != undefined do 
@@ -1320,7 +1381,7 @@
 									select $Bip_
 								)
 				)
-			)
+			
 		),
 		
 
